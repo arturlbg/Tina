@@ -3,6 +3,7 @@ Tina é um aplicativo  de consultoria em nódulos de tireoide voltada para uso n
 Foi feito utilizando a biblioteca kivy do python e montado com o buildozer.
 Toda estrutura do aplicativo é baseado numa árvore de decisão escrita em XML, onde existe um programa em python que interpreta esse XML, tornando o aplicativo totalmente adaptável conforme você edite o XML. 
 O aplicativo é de fácil uso, cada decisão do usuário leva a um caminho, onde no final existe uma decisão a ser tomada pelo médico.
+# Desenvolvido através do Projeto de Iniciação Científica do CNPq por meio da Universidade Federal da Paraíba.
 
 ![apresent1](https://user-images.githubusercontent.com/60628919/109841826-35ea0f80-7c28-11eb-85ac-abdb04d38327.png)
 ![apresent2](https://user-images.githubusercontent.com/60628919/109841952-574afb80-7c28-11eb-9fd1-5673633c6eec.png)
