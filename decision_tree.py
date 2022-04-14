@@ -2,7 +2,7 @@ TREE_NODE = 0
 
 DECISION_NODE = 1
 CATEGORICAL_NODE = 2
-RANGE_NODE = 3
+INTERACTIVE_RANGE = 3
 
 
 class TreeNode:
@@ -11,6 +11,7 @@ class TreeNode:
         self.children = []
         self.is_leaf = False
         self.type = TREE_NODE
+        self.isVar = False
         
     def addQueryLine(self, line):
         self.query.append(line)
@@ -61,7 +62,9 @@ class RangeNode(TreeNode):
         self.thresholds = []
         self.intervals = []
         self.unit = unit
-        self.type = RANGE_NODE
+        self.type = INTERACTIVE_RANGE
+
+        self.isVar = False
         
     def addChild(self, node, threshold):
         self.thresholds.append(threshold)

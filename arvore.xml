@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+   <node id="1">
+       <type>categorical</type>
+       <query>
+           <line>O TSH se encontra diminuído?</line>
+           <line> </line>
+           <line>(comparar ao valor de referência do laboratório)</line>
+       </query>
+       		<categories>
+			<category id="1">
+				<description>Sim</description>
+			</category>
+			<category id="2">
+				<description>Não</description>
+			</category>
+		</categories>
+		<node_children>
+		   <node id="1">
+			<type>decision</type>
+			<description>
+				<line> A presença de TSH diminuído pode indicar hipertireoidismo e necessita de avaliação especializada.</line>
+				<line> Encaminhe ao endocrinologista. </line>
+			</description>
+		   </node>
+			<node id="2">
+			    <type>categorical</type>
+			    <query>
+			        <line>O paciente apresenta sintomas compressivos?</line>
+			        <line> </line>
+			        <line>(dificuldade respiratória ou de deglutição decorrente da compressão pelo nódulo)</line>
+			    </query>
+			    <categories>
+			        <category id="1">
+			            <description>Sim</description>
+			        </category>
+			        <category id="2">
+			            <description>Não</description>
+			        </category>
+			    </categories>
+			    <node_children>
+			        <node id="1">
+			            <type>decision</type>
+			            <description>
+			                <line>Nódulos com sintomas compressivos necessitam de avaliação especializada.</line>
+			                <line> </line>
+			                <line>Encaminhe ao endocrinologista.</line>
+			            </description>
+			        </node>
+			        <node id="2">
+			            <type>categorical</type>
+			            <query>
+							<line>O nódulo na verdade é um CISTO SIMPLES?</line>
+						</query>
+			            <categories>
+			                <category id="1">
+			                    <description>Sim</description>
+			                </category>
+			                <category id="2">
+			                    <description>Não</description>
+			                </category>
+			            </categories>
+			            <node_children>
+			                <node id="1">
+			                    <type>decision</type>
+			                    <description>
+			                        <line>Cistos simples são benignos e não precisam de seguimento ultrassonográfico rotineiro.</line>
+			                        <line> </line>
+			                        <line>O paciente pode permanecer aos cuidados da atenção básica.</line>
+			                    </description>
+			                </node>
+			                <node id="2">
+			                    <type>categorical</type>
+			                    <query>
+									<line>Existe na ultrassonografia a descrição de invasão extra-tireoidiana?</line>
+								</query>
+			                    <categories>
+			                        <category id="1">
+			                            <description>Sim</description>
+			                        </category>
+			                        <category id="2">
+			                            <description>Não</description>
+			                        </category>
+			                    </categories>
+			                    <node_children>
+			                        <node id="1">
+			                            <type>decision</type>
+			                            <description>
+			                                <line>Esse nódulo pode precisar de investigação adicional com punção aspirativa.</line>
+			                                <line> </line>
+			                                <line>Encaminhe ao endocrinologista.</line>
+			                            </description>
+			                        </node>
+			                        <node id="2">
+			                            <type>interactive_range</type>
+			                            <query>
+			                                <line>Qual o tamanho do nódulo (em milímetros)?</line>
+			                                <line> </line>
+			                                <line>(considerar a maior dimensão descrita para o nódulo)</line>
+			                            </query>
+			                            <unit>mm</unit>
+			                            <var>tamanho</var>
+						                <thresholds>
+							                <threshold id="1">
+								                <upper_bound>5</upper_bound>
+								                <interval>open</interval>
+							                </threshold>
+							                <threshold id="2">
+								                <interval>unbounded</interval>
+							                </threshold>
+						                </thresholds>
+						                <node_children>
+						                    <node id="1">
+						                        <type>decision</type>
+						                        <description>
+						                            <line>Este nódulo nódulo é considerado de baixo risco e não necessita de punção aspirativa. </line>
+						                            <line> </line>
+						                            <line>Recomendação: repetir ultrassonografia e TSH a cada 12 a 18 meses.</line>
+						                        </description>
+						                    </node>
+						                    <node id="2">
+						                        <type>categorical</type>
+						                        <query>
+						                            <line>Existe alguma característica ultrassonográfica de risco?</line>
+						                            <line> </line>
+						                            <line>Microcalcificações</line>
+						                            <line>Margens irregulares</line>
+						                            <line>Nódulo mais alto que largo</line>
+						                            <line>Linfonodos suspeitos</line>
+						                        </query>
+						                        <categories>
+						                            <category id="1">
+						                                <description>Sim</description>
+						                            </category>
+						                            <category id="2">
+						                                <description>Não</description>
+						                            </category>
+						                        </categories>
+						                        <node_children>
+						                            <node id="1">
+						                                <type>decision</type>
+						                                <description>
+						                                    <line>Este nódulo pode necessitar de investigação adicional com punção aspirativa.</line>
+						                                    <line> </line>
+						                                    <line>Encaminhe ao endocrinologista.</line>
+						                                </description>
+						                            </node>
+						                            <node id="2">
+						                                <type>interactive_range</type>
+						                                <unit>mm</unit>
+			                                            		<var>tamanho</var>
+						                                <thresholds>
+							                                <threshold id="1">
+								                                <upper_bound>10</upper_bound>
+								                                <interval>open</interval>
+							                                </threshold>
+							                                <threshold id="2">
+							                                    <upper_bound>20</upper_bound>
+								                                <interval>open</interval>
+							                                </threshold>
+							                                <thresold id="3">
+							                                    <interval>unbounded</interval>
+							                                </thresold>
+						                                </thresholds>
+						                                <node_children>
+						                                    <node id="1">
+						                                        <type>decision</type>
+						                                        <description>
+						                                            <line>Este nódulo é considerado de baixo risco e não necessita de punção aspirativa. </line>
+						                                            <line> </line>
+						                                            <line>Recomendação: repetir ultrassonografia e TSH a cada 12 a 18 meses.</line>
+						                                        </description>
+						                                    </node>
+						                                    <node id="3">
+						                                        <type>decision</type>
+						                                        <description>
+						                                            <line>Este nódulo pode necessitar de investigação adicional com punção aspirativa.</line>
+						                                            <line> </line>
+						                                            <line>Encaminhe ao endocrinologista.</line>
+						                                        </description>
+						                                    </node>
+						                                    <node id="2">
+						                                        <type>categorical</type>
+						                                        <query>
+																	<line>Qual a composição do nódulo?</line>
+																</query>
+						                                        <categories>
+						                                            <category id="1">
+						                                                <description>Misto(predominantemente cístico) ou Espongiforme</description>
+						                                            </category>
+						                                            <category id="2">
+						                                                <description>Sólido ou Misto(predominantemente sólido)</description>
+						                                            </category>
+						                                        </categories>
+						                                        <node_children>
+						                                            <node id="1">
+						                                                <type>decision</type>
+						                                                <description>
+						                                                    <line>Este nódulo nódulo é  considerado de baixo risco e não necessita de punção aspirativa. </line>
+						                                            		<line> </line>
+						                                            		<line>Recomendação: repetir ultrassonografia e TSH a cada 12 a 18 meses.</line>
+						                                                </description>
+						                                            </node>
+						                                            <node id="2">
+						                                                <type>categorical</type>
+						                                                <query>
+																			<line>Qual é a ecogenicidade do nódulo?</line>
+																		</query>
+						                                                <categories>
+						                                                    <category id="1">
+						                                                        <description>Hipoecóico</description>
+						                                                    </category>
+						                                                    <category id="2">
+						                                                        <description>Isoecóico ou Hiperecóico</description>
+						                                                    </category>
+						                                                </categories>
+						                                                <node_children>
+						                                                    <node id="1">
+						                                                        <type>interactive_range</type>
+						                                                        <unit>mm</unit>
+			                                                                    		<var>tamanho</var>
+						                                                        <thresholds>
+							                                                        <threshold id="1">
+								                                                        <upper_bound>10</upper_bound>
+								                                                        <interval>open</interval>
+							                                                        </threshold>
+							                                                        <threshold id="2">
+								                                                        <interval>unbounded</interval>
+							                                                        </threshold>
+						                                                        </thresholds>
+						                                                        <node_children>
+						                                                            <node id="1">
+						                                                                <type>decision</type>
+						                                                                <description>
+						                                                                    <line>Este nódulo nódulo é  considerado de baixo risco e não necessita de punção aspirativa. </line>
+						                                                                    <line> </line>
+						                                                                    <line>Recomendação: repetir ultrassonografia e TSH a cada 12 a 18 meses.</line>
+						                                                                </description>
+						                                                            </node>
+						                                                            <node id="2">
+						                                                                <type>decision</type>
+						                                                                <description>
+						                                                                    <line>Este nódulo pode necessitar de investigação adicional com punção aspirativa.</line>
+						                                                                    <line> </line>
+						                                                                    <line>Encaminhe ao endocrinologista.</line>
+						                                                                </description>
+						                                                            </node>
+						                                                        </node_children>
+						                                                    </node>
+						                                                    <node id="2">
+						                                                        <type>interactive_range</type>
+						                                                        <unit>mm</unit>
+						                                                        <var>tamanho</var>
+						                                                        <thresholds>
+							                                                        <threshold id="1">
+								                                                        <upper_bound>15</upper_bound>
+								                                                        <interval>open</interval>
+							                                                        </threshold>
+							                                                        <threshold id="2">
+								                                                        <interval>unbounded</interval>
+							                                                        </threshold>
+						                                                        </thresholds>
+						                                                        <node_children>
+						                                                            <node id="1">
+																						<type>decision</type>
+						                                                                <description>
+						                                                                    <line>Este nódulo nódulo é  considerado de baixo risco e não necessita de punção aspirativa. </line>
+						                                                                    <line> </line>
+						                                                                    <line>Recomendação: repetir ultrassonografia e TSH a cada 12 a 18 meses.</line>
+						                                                                </description>
+						                                                            </node>
+																						<node id="2">
+																							<type>decision</type>
+																							<description>
+																								<line>Este nódulo pode necessitar de investigação adicional com punção aspirativa.</line>
+																								<line> </line>
+																								<line>Encaminhe ao endocrinologista.</line>
+																							</description>
+						                                                            </node>
+						                                                        </node_children>
+						                                                    </node>
+						                                                </node_children>
+						                                            </node>
+						                                        </node_children>
+						                                    </node>
+						                                </node_children>
+						                            </node>
+						                        </node_children>
+						                    </node>
+						                </node_children>
+			                        </node>
+			                    </node_children>
+			                </node>
+			            </node_children>
+			        </node>
+			    </node_children>
+			</node>
+		</node_children>
+   </node> 
+</root>
