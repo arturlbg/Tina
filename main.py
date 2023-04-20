@@ -28,14 +28,14 @@ class Iniciar(Screen):
     def __init__(self, **kwargs):
         super(Iniciar, self).__init__(**kwargs)
         layout = FloatLayout()
-        self.button_1 = Button(text='CLIQUE\nAQUI', size_hint=(None, None), pos_hint={'center_x': .50, 'y': .13},
+        self.button_1 = Button(text='CLIQUE\nAQUI', size_hint=(None, None), pos_hint={'center_x': .50, 'y': .155},
                              background_normal='images/new_button.png', size=(dp(150), dp(80)),
                              background_color=(0, 0, 1.60, 1),halign="center",
                              font_size=sp(24))
         self.button_2 = Button(size_hint=(None, None), pos_hint={'center_x': .50, 'y': .02},
                              background_normal='images/instrucao.png',size=(dp(100), dp(100)),
                              font_size=sp(24))
-        self.tina = Image(source='images/tina2.png', size_hint=(None, None), size=(dp(270), dp(270)),
+        self.tina = Image(source='tina2.png', size_hint=(None, None), size=(dp(270), dp(270)),
                           pos_hint={'center_x': .5, 'center_y': .80})
         self.label_1 = Button(text = "TINA", size_hint=(None, None), pos_hint={'center_x': .50, 'center_y': .57},
                             color=(0,0,1.41,1), font_name="Bauhaus 98", halign="center", font_size=90,
@@ -111,7 +111,7 @@ class Decision(Screen):
         self.label = Button(text='', size_hint=(.8, .5), pos_hint={'center_x': .50, 'center_y': .70},
                             background_normal='images/new_button.png', text_size=(540, None), halign="center",
                             font_size='22sp')
-        self.tina = Image(source='images/tina2.png', size_hint=(None, None), size=(dp(165), dp(180)),
+        self.tina = Image(source='tina2.png', size_hint=(None, None), size=(dp(165), dp(180)),
                           pos_hint={'center_x': .50, 'center_y': .295})
 
         self.button = Button(text='REINICIAR', size_hint=(.2, .1), pos_hint={'center_x': .50, 'y': .06},
@@ -145,20 +145,20 @@ class Categorical(Screen):
         layout = FloatLayout()
 
         self.label = Button(text='', size_hint=(.8, .5), pos_hint={'center_x': .50, 'center_y': .70},
-                            background_normal = 'images/new_button.png', text_size=(540, None), halign="center", font_size='22sp')
+                            background_normal = 'new_button.png', text_size=(540, None), halign="center", font_size='22sp')
 
         layout.add_widget(self.label)
 
         self.button_a = Button(text='',size_hint=(.6, .1), pos_hint={'center_x': .505, 'y': .32},
-                               halign="center", background_normal = 'images/new_button.png',
+                               halign="center", background_normal = 'new_button.png',
                                background_color=(0, 0, 1.60, 1),font_size=38)
         self.button_a.id='1'
         self.button_b = Button(text='', size_hint=(.6, .1), pos_hint={'center_x': .505, 'y': .21},
-                               halign="center", background_normal = 'images/new_button.png',
+                               halign="center", background_normal = 'new_button.png',
                                background_color=(0, 0, 1.60, 1), font_size=38)
         self.button_b.id='2'
         self.back_button = Button(text='VOLTAR',size_hint=(.4, .1), pos_hint={'center_x': .505, 'y': .06},
-                             background_normal = 'images/button_red.png',
+                             background_normal = 'button_red.png',
                              font_size=28)
         self.back_button.bind(on_press = self.press_back)
 
@@ -238,8 +238,12 @@ class Categorical(Screen):
                 alternatives = []
                 for c in no_aux.categories:
                     alternatives.append(c.description)
-                self.manager.get_screen('categorical').config()
-                self.manager.current = 'categorical'
+                if len(alternatives) > 2:
+                    self.manager.get_screen('categoricaltwomore').config()
+                    self.manager.current = 'categoricaltwomore'
+                else:
+                    self.manager.get_screen('categorical').config()
+                    self.manager.current = 'categorical'
             elif no_aux.type == dt.INTERACTIVE_RANGE:
                 if len(nodes) == 4:
                     variable_range = -1
@@ -278,8 +282,197 @@ class Categorical(Screen):
             alternatives = []
             for c in no_aux.categories:
                 alternatives.append(c.description)
+            print(alternatives)
+            if len(alternatives) > 2:
+                self.manager.get_screen('categoricaltwomore').config()
+                self.manager.current = 'categoricaltwomore'
+            else:
+                self.manager.get_screen('categorical').config()
+                self.manager.current = 'categorical'
+        elif no_aux.type == dt.INTERACTIVE_RANGE:
+            self.manager.get_screen('range').config()
+            if variable_range == -1:
+                self.manager.current = 'range'
+        elif no_aux.type == dt.DECISION_NODE:
+            self.manager.get_screen('decision').config()
+            self.manager.current = 'decision'
+        else:
+            self.manager.get_screen('range').var_range()
+
+class CategoricalTwoMore(Screen):
+    def __init__(self, **kwargs):
+        super(CategoricalTwoMore, self).__init__(**kwargs)
+
+        self.id = 'categorical_two_more_id'
+
+        layout = FloatLayout()
+
+        self.label = Button(text='', size_hint=(.8, .5), pos_hint={'center_x': .50, 'center_y': .70},
+                            background_normal = 'new_button.png', text_size=(540, None), halign="center", font_size='22sp')
+
+        layout.add_widget(self.label)
+
+        self.button_a = Button(text='',size_hint=(.6, .1), pos_hint={'center_x': .505, 'y': .34},
+                               halign="center", background_normal = 'new_button.png',
+                               background_color=(0, 0, 1.60, 1),font_size=38)
+        self.button_a.id='1'
+        self.button_b = Button(text='', size_hint=(.6, .1), pos_hint={'center_x': .505, 'y': .24},
+                               halign="center", background_normal = 'new_button.png',
+                               background_color=(0, 0, 1.60, 1), font_size=38)
+        self.button_b.id='2'
+        self.button_c = Button(text='', size_hint=(.6, .1), pos_hint={'center_x': .505, 'y': .14},
+                               halign="center", background_normal = 'new_button.png',
+                               background_color=(0, 0, 1.60, 1), font_size=38)
+        self.button_c.id='3'
+
+        self.back_button = Button(text='VOLTAR',size_hint=(.4, .1), pos_hint={'center_x': .505, 'y': .01},
+                             background_normal = 'button_red.png',
+                             font_size=28)
+        
+        self.back_button.bind(on_press = self.press_back)
+
+        layout.add_widget(self.back_button)
+        layout.add_widget(self.button_a)
+        layout.add_widget(self.button_b)
+        layout.add_widget(self.button_c)
+
+        self.add_widget(layout)
+
+    def config(self):
+        lines = ''
+        count=0
+
+        if len(no_aux.query) > 1:
+            for c in no_aux.query:
+                count+=1
+                lines+=c
+                lines+='\n'
+            self.label.text = lines
+        else:
+            self.label.text = no_aux.query[0]
+
+        if len(alternatives)>2:
+            text = ''
+            lenght_list = [alternatives[0].split("ou"), alternatives[1].split("ou"), alternatives[2].split("ou")]
+            count = 0
+            
+            if len(lenght_list[0]) > 1:
+                for i in lenght_list[0]:
+                    text+=i
+                    if count == 0:
+                        text+='\nou\n'
+                        count+=1
+                self.button_a.text = text
+                self.button_a.font_size = 28
+                count = 0
+                text = ''
+            else:
+                self.button_a.text = alternatives[0]
+
+            if len(lenght_list[1]) > 1:
+                for i in lenght_list[1]:
+                    text += i
+                    if count == 0:
+                        text += '\nou\n'
+                        count += 1
+                self.button_b.text = text
+                self.button_b.font_size = 28
+                count = 0
+                text = ''
+            else:
+                self.button_b.text = alternatives[1]
+
+            if len(lenght_list[2]) > 1:
+                for i in lenght_list[2]:
+                    text += i
+                    if count == 0:
+                        text += '\nou\n'
+                        count += 1
+                self.button_c.text = text
+                self.button_c.font_size = 28
+                count = 0
+                text = ''
+            else:
+                self.button_c.text = alternatives[2]
+            self.button_a.bind(on_press=self.press_button)
+            self.button_b.bind(on_press=self.press_button)
+            self.button_c.bind(on_press=self.press_button)
+
+    def press_back(self, *args):
+        global nodes
+        global no_aux
+        global alternatives
+        global variable_range
+
+        parser = Parser_DecisionTree('arvore.xml')
+        tree = parser.create_tree()
+        no_aux = tree
+        if len(nodes) > 1:
+            if len(nodes) == 7:
+                del nodes[-1]
+                del nodes[-1]
+            else:
+                del nodes[-1]
+                if len(nodes) > 4:
+                    if type(nodes[-1]) == float:
+                        del nodes[-1]
+            for i in nodes:
+                no_aux = no_aux.getChild(i)
+            if no_aux.type == dt.CATEGORICAL_NODE:
+                alternatives = []
+                for c in no_aux.categories:
+                    alternatives.append(c.description)
+                if len(alternatives) > 2:
+                    self.manager.get_screen('categoricaltwomore').config()
+                    self.manager.current = 'categoricaltwomore'
+                else:
+                    self.manager.get_screen('categorical').config()
+                    self.manager.current = 'categorical'
+            elif no_aux.type == dt.INTERACTIVE_RANGE:
+                if len(nodes) == 4:
+                    variable_range = -1
+                if variable_range == -1:
+                    self.manager.current = 'range'
+                    self.manager.get_screen('range').config()
+                else:
+                    no_aux.isVar = True
+                    self.manager.get_screen('range').config()
+            elif no_aux.type == dt.DECISION_NODE:
+                self.manager.get_screen('decision').config()
+                self.manager.current = 'decision'
+            else:
+                self.manager.get_screen('range').var_range()
+        elif len(nodes) == 0:
+            self.manager.get_screen('iniciar').config()
+            self.manager.current = 'iniciar'
+        else:
+            for c in no_aux.categories:
+                alternatives.append(c.description)
             self.manager.get_screen('categorical').config()
+            alternatives = []
             self.manager.current = 'categorical'
+            del nodes[-1]
+
+    def press_button(self, button):
+        global no_aux
+        global alternatives
+        global nodes
+
+        pos = int(button.id)
+        cat = no_aux.categories[pos - 1]
+        no_aux = no_aux.getChild(cat)
+        nodes.append(cat)
+        if no_aux.type == dt.CATEGORICAL_NODE:
+            alternatives = []
+            for c in no_aux.categories:
+                alternatives.append(c.description)
+            print(alternatives)
+            if len(alternatives) > 2:
+                    self.manager.get_screen('categoricaltwomore').config()
+                    self.manager.current = 'categoricaltwomore'
+            else:
+                self.manager.get_screen('categorical').config()
+                self.manager.current = 'categorical'
         elif no_aux.type == dt.INTERACTIVE_RANGE:
             self.manager.get_screen('range').config()
             if variable_range == -1:
@@ -299,7 +492,7 @@ class Range(Screen):
 
         self.label = Button(text='', size_hint=(.8, .5), pos_hint={'center_x': .50, 'center_y': .70},
                             background_normal='images/new_button.png', text_size=(540, None), halign="center",
-                            font_size='22sp')
+                            font_size='18sp')
         self.back = Button(text='VOLTAR', size_hint=(.2, .1), pos_hint={'center_x': .505, 'y': .04},
                            background_normal='images/button_red.png',
                            font_size=28)
@@ -307,7 +500,7 @@ class Range(Screen):
         layout.add_widget(self.label)
 
         self.input = TextInput(multiline=False, size_hint=(.3, .08), background_color = (.8, .9, 0, 1),  pos_hint={'center_x':.50, 'y':0.32}, font_size='26sp', hint_text='(mm)')
-        self.button = Button(text='ENVIAR', size_hint=(.3, .1), pos_hint={'center_x': .505, 'y': .19}, background_normal = 'images/new_button.png', background_color=(0, 0, 1.60, 1), font_size=28)
+        self.button = Button(text='ENVIAR', size_hint=(.3, .1), pos_hint={'center_x': .505, 'y': .19}, background_normal = 'new_button.png', background_color=(0, 0, 1.60, 1), font_size=28)
         self.button.bind(on_press=self.press_button)
 
         layout.add_widget(self.button)
@@ -338,8 +531,12 @@ class Range(Screen):
                 alternatives = []
                 for c in no_aux.categories:
                     alternatives.append(c.description)
-                self.manager.get_screen('categorical').config()
-                self.manager.current = 'categorical'
+                if len(alternatives) > 2:
+                    self.manager.get_screen('categoricaltwomore').config()
+                    self.manager.current = 'categoricaltwomore'
+                else:
+                    self.manager.get_screen('categorical').config()
+                    self.manager.current = 'categorical'
             elif no_aux.type == dt.INTERACTIVE_RANGE:
                 self.manager.get_screen('range').config()
                 if variable_range == -1:
@@ -369,8 +566,12 @@ class Range(Screen):
                 alternatives = []
                 for c in no_aux.categories:
                     alternatives.append(c.description)
-                self.manager.get_screen('categorical').config()
-                self.manager.current = 'categorical'
+                if len(alternatives) > 2:
+                    self.manager.get_screen('categoricaltwomore').config()
+                    self.manager.current = 'categoricaltwomore'
+                else:
+                    self.manager.get_screen('categorical').config()
+                    self.manager.current = 'categorical'
             elif no_aux.type == dt.INTERACTIVE_RANGE:
                 if len(nodes) == 4:
                     variable_range = -1
@@ -412,8 +613,12 @@ class Range(Screen):
                     alternatives = []
                     for c in no_aux.categories:
                         alternatives.append(c.description)
-                    self.manager.get_screen('categorical').config()
-                    self.manager.current = 'categorical'
+                    if len(alternatives) > 2:
+                        self.manager.get_screen('categoricaltwomore').config()
+                        self.manager.current = 'categoricaltwomore'
+                    else:
+                        self.manager.get_screen('categorical').config()
+                        self.manager.current = 'categorical'
                 elif no_aux.type == dt.INTERACTIVE_RANGE:
                     self.manager.get_screen('range').config()
                     if variable_range == -1:
@@ -438,6 +643,7 @@ class Application(App):
         sm.add_widget(Iniciar(name='iniciar'))
         sm.add_widget(Instrucoes(name='instrucoes'))
         sm.add_widget(Categorical(name='categorical'))
+        sm.add_widget(CategoricalTwoMore(name='categoricaltwomore'))
         sm.add_widget(Decision(name='decision'))
         sm.add_widget(Range(name='range'))
 
